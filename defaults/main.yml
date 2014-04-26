@@ -1,0 +1,82 @@
+# file: roles/install-postgresql-on-el6/defaults/main.yml -- main variables
+
+# Basic settings
+postgresql_version: 9.3
+postgresql_contrib: yes
+
+# Specify database cluster location in case when /var/lib/pgsq/x.y/data directory should be replaced with symlink.
+postgresql_cluster_symlink_src: ""
+
+# Stop postgresql service if started and drop cluster if existing.
+postgresql_drop_old_cluster: yes
+
+# Enable some options for streaming replication purposes
+postgresql_streaming_replication: no
+
+# Specify a directory for the logs if the default directory does not plan to use
+postgresql_log_directory: /var/log/postgresql
+
+# PostgreSQL users and roles
+postgresql_admin_user: "postgres"
+postgresql_users:
+ - { name: "johndoe", pass: "test1234", flags: "LOGIN,SUPERUSER" }
+
+# PostgreSQL databases and settings. Do not remove template, encoding, collate, ctype options from postgresql_database because it most certainly lead to Ansible role inoperability.
+postgresql_encoding: UTF8
+postgresql_locale: en_US.UTF-8
+postgresql_databases:
+ - { name: "db1", owner: "postgres", template: "template0", encoding: "{{ postgresql_encoding }}", collate: "{{ postgresql_locale }}", ctype: "{{ postgresql_locale }}" }
+
+# Extensions which will be installed into databases. This list of extensions will be installed to all databases within postgresql_databases.
+postgresql_extensions:
+ - hstore
+ - pg_stat_statements
+
+# Settings related to the pg_hba rules
+postgresql_default_unix_auth_method: "trust"
+postgresql_default_ipv4_auth_method: "md5"
+postgresql_default_ipv6_auth_method: "md5"
+
+# Specify default rules for pg_hba.conf. Change them only if it is really necessary.
+postgresql_pg_hba_default:
+ - { type: local, database: all, role: "{{ postgresql_admin_user }}", address: "", method: "{{ postgresql_default_unix_auth_method }}", comment: '"local" is for Unix domain socket connections only' }
+ - { type: host, database: all, role: all, address: "127.0.0.1/32", method: "{{ postgresql_default_ipv4_auth_method }}", comment: 'IPv4 local connections:' }
+ - { type: host, database: all, role: all, address: "::1/128", method: "{{ postgresql_default_ipv6_auth_method }}", comment: 'IPv6 local connections:' }
+
+# Specify custom rules for pg_hba.conf. Specify here all necessary pg_hba rules.
+postgresql_pg_hba_custom:
+ - { type: host, database: replication, role: "{{ postgresql_admin_user }}", address: "127.0.0.1/32", method: "{{ postgresql_default_ipv4_auth_method }}", comment: '' }
+
+# PostgreSQL parameters which will appears in the postgresql.conf. Be aware, some parameters from newer postgresql versions, does not supported in the elder postrgesql versions, and may lead to the case when postgresql service does not start
+postgresql_conf_default_guc:
+  - { regexp: "^#?listen_addresses = .*$", guc: "listen_addresses = '*'" }
+#  - { regexp: "^#?shared_preload_libraries = .*$", guc: "shared_preload_libraries = 'pg_stat_statements'" }
+#  - { regexp: "^#?work_mem = .*$", guc: "work_mem = 8MB" }
+#  - { regexp: "^#?maintenance_work_mem = .*$", guc: "maintenance_work_mem = 256MB" }
+#  - { regexp: "^#?max_stack_depth = .*$", guc: "max_stack_depth = 4MB" }
+#  - { regexp: "^#?max_files_per_process = .*$", guc: "max_files_per_process = 10000" }
+#  - { regexp: "^#?bgwriter_delay = .*$", guc: "bgwriter_delay = 10ms" }
+#  - { regexp: "^#?bgwriter_lru_maxpages = .*$", guc: "bgwriter_lru_maxpages = 1000" }
+#  - { regexp: "^#?bgwriter_lru_multiplier = .*$", guc: "bgwriter_lru_multiplier = 10.0" }
+#  - { regexp: "^#?effective_io_concurrency = .*$", guc: "effective_io_concurrency = 8" }
+#  - { regexp: "^#?wal_level = .*$", guc: "wal_level = {{'hot_standby' if postgresql_streaming_replication else 'minimal'}}" }
+#  - { regexp: "^#?fsync = .*$", guc: "fsync = on" }
+#  - { regexp: "^#?synchronous_commit = .*$", guc: "synchronous_commit = on" }
+#  - { regexp: "^#?full_page_writes = .*$", guc: "full_page_writes = on" }
+#  - { regexp: "^#?checkpoint_segments = .*$", guc: "checkpoint_segments = 32" }
+#  - { regexp: "^#?checkpoint_timeout = .*$", guc: "checkpoint_timeout = 30min" }
+#  - { regexp: "^#?checkpoint_completion_target = .*$", guc: "checkpoint_completion_target = 0.9" }
+#  - { regexp: "^#?max_wal_senders = .*$", guc: "max_wal_senders = {{ 6 if postgresql_streaming_replication else 0 }}" }
+#  - { regexp: "^#?wal_keep_segments = .*$", guc: "wal_keep_segments = {{ 256 if postgresql_streaming_replication else 0 }}" }
+#  - { regexp: "^#?hot_standby = .*$", guc: "hot_standby = {{ 'on' if postgresql_streaming_replication else 'off' }}" }
+#  - { regexp: "^#?hot_standby_feedback = .*$", guc: "hot_standby_feedback = {{ 'on' if postgresql_streaming_replication else 'off' }}" }
+#  - { regexp: "^#?log_destination = .*$", guc: "log_destination = 'stderr'" }
+#  - { regexp: "^#?logging_collector = .*$", guc: "logging_collector = on" }
+#  - { regexp: "^#?log_directory = .*$", guc: "log_directory = '{{ postgresql_log_directory | default('pg_log') }}'" }
+#  - { regexp: "^#?log_filename = .*$", guc: "log_filename = 'postgresql-%Y-%m-%d.log'" }
+#  - { regexp: "^#?log_rotation_age .*$", guc: "log_rotation_age = 1d" }
+#  - { regexp: "^#?log_min_duration_statement = .*$", guc: "log_min_duration_statement = 1000" }
+#  - { regexp: "^#?log_checkpoints .*$", guc: "log_checkpoints = on" }
+#  - { regexp: "^#?log_line_prefix = .*$", guc: "log_line_prefix = '%t %p %u@%d from %h [vxid:%v txid:%x] [%i] '" }
+#  - { regexp: "^#?track_io_timing = .*$", guc: "track_io_timing = on" }
+#  - { regexp: "^#?track_functions = .*$", guc: "track_functions = pl" }

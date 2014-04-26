@@ -1,0 +1,22 @@
+# file: roles/install-postgresql-on-el6/tasks/databases.yml -- manage databases
+
+- name: "Stage 4: add databases"
+  postgresql_db:
+    state: present
+    name: "{{ item.name }}"
+    template: "{{ item.template }}"
+    encoding: "{{ item.encoding }}"
+    lc_collate: "{{ item.collate }}"
+    lc_ctype: "{{ item.ctype }}"
+    owner: "{{ item.owner }}"
+  with_items: postgresql_databases
+  when: postgresql_databases|length > 0
+
+- name: "Stage: 4: add extensions"
+  sudo: yes
+  sudo_user: "{{ postgresql_admin_user }}"
+  command: "psql {{ item[0].name }} -c 'CREATE EXTENSION IF NOT EXISTS {{ item[1] }}'"
+  with_nested:
+    - postgresql_databases
+    - postgresql_extensions
+  when: postgresql_contrib and postgresql_extensions|length > 0 and postgresql_version != '8.4'

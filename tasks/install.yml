@@ -1,0 +1,22 @@
+# file: roles/install-postgresql-on-el6/tasks/install.yml -- install postgresql packages
+
+- name: "Stage 1: install repository package"
+  yum: 
+    state: present
+    pkg: "{{ item.repo }}"
+  when: item.version == "{{ postgresql_version }}"
+  with_items: postgresql_repo_{{ ansible_distribution }}
+
+- name: "Stage 1: install postgresql packages"
+  yum: 
+    state: latest
+    pkg: "{{ item }}"
+  with_items:
+    - postgresql{{ postgresql_version |replace('.', '') }}-server
+    - python-psycopg2
+
+- name: "Stage 1: install postgresql contrib package"
+  yum: 
+    state: latest
+    pkg: postgresql{{ postgresql_version |replace('.', '') }}-contrib
+  when: postgresql_contrib

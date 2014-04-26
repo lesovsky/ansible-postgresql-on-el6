@@ -1,0 +1,5 @@
+---
+# Install PostgreSQL on Enterprise Linux 6 (RHEL/CentOS/Scientific)
+- hosts: localhost
+  roles:
+    - { role: install-postgresql-on-el6, sudo: yes, user: root, tags: [ 'install-on-el6' ] }

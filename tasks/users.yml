@@ -1,0 +1,11 @@
+# file: roles/install-postgresql-on-el6/tasks/users.yml -- manage postgresql roles
+
+- name: "Stage 3. add postgresql roles"
+  postgresql_user:
+    state: present
+    name: "{{ item.name }}"
+    encrypted: no
+    password: "{{ item.pass }}"
+    role_attr_flags: "{{ item.flags }}"
+  with_items: postgresql_users
+  when: postgresql_users|length > 0
