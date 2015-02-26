@@ -9,6 +9,7 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
+      - 7
       - 6
   categories:
    - database
