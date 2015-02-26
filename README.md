@@ -1,7 +1,7 @@
-### README: install-postgresql-on-el6
+### README: install-postgresql-on-el
 
 Features:
-- supported distributions: Redhat 6, CentOS 6, Scientific Linux 6.
+- supported distributions: 6 and 7 versions of Redhat, CentOS, Scientific Linux.
 - Oracle Linux also supported but uses RHEL repositories.
 - supported PostgreSQL versions: 8.4, 9.0, 9.1, 9.2, 9.3, 9.4.
 - allows specify users and databases which would be created after install.

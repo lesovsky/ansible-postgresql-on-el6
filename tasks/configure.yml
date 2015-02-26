@@ -27,7 +27,9 @@
   when: postgresql_cluster_symlink_src|length > 0
 
 - name: "Stage 2: initialize new postgresql cluster"
-  command: "service postgresql-{{ postgresql_version }} initdb"
+  sudo: yes
+  sudo_user: "{{ postgresql_admin_user }}"
+  command: "/usr/pgsql-{{ postgresql_version }}/bin/initdb -D /var/lib/pgsql/{{ postgresql_version }}/data"
 
 - name: "Stage 2: configure pg_hba.conf"
   template:
