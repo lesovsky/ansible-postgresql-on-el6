@@ -1,5 +1,8 @@
 # file: install-postgresql-on-el6/tasks/main.yml -- root task with pre-flight check and which includes other
 
+- name: Include vars for postgres installation
+  include_vars: 'repo.yml'
+
 - name: Check OS support
   debug: msg="The following OS family {{ ansible_os_family }} {{ ansible_architecture }} is not supported" fail=yes
   when: not ansible_os_family == "RedHat" or not ansible_architecture == "x86_64"
