@@ -29,7 +29,7 @@
 - name: "Stage 2: initialize new postgresql cluster"
   sudo: yes
   sudo_user: "{{ postgresql_admin_user }}"
-  command: "/usr/pgsql-{{ postgresql_version }}/bin/initdb -D /var/lib/pgsql/{{ postgresql_version }}/data"
+  command: "/usr/pgsql-{{ postgresql_version }}/bin/initdb -D /var/lib/pgsql/{{ postgresql_version }}/data creates=/var/lib/pgsql/{{ postgresql_version }}/data"
 
 - name: "Stage 2: configure pg_hba.conf"
   template:
