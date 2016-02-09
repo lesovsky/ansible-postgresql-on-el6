@@ -1,6 +1,7 @@
 # file: roles/install-postgresql-on-el6/vars/main.yml -- here are the variables that you don't want to change unnecessarily.
 
 postgresql_repo_RedHat:
+  - { version: "9.5", repo: "http://yum.postgresql.org/9.5/redhat/rhel-{{ el_version }}-x86_64/pgdg-redhat95-9.5-2.noarch.rpm" }
   - { version: "9.4", repo: "http://yum.postgresql.org/9.4/redhat/rhel-{{ el_version }}-x86_64/pgdg-redhat94-9.4-1.noarch.rpm" }
   - { version: "9.3", repo: "http://yum.postgresql.org/9.3/redhat/rhel-{{ el_version }}-x86_64/pgdg-redhat93-9.3-1.noarch.rpm" }
   - { version: "9.2", repo: "http://yum.postgresql.org/9.2/redhat/rhel-{{ el_version }}-x86_64/pgdg-redhat92-9.2-7.noarch.rpm" }
@@ -9,6 +10,7 @@ postgresql_repo_RedHat:
   - { version: "8.4", repo: "http://yum.postgresql.org/8.4/redhat/rhel-{{ el_version }}-x86_64/pgdg-redhat-8.4-3.noarch.rpm" }
 
 postgresql_repo_Scientific:
+  - { version: "9.5", repo: "http://yum.postgresql.org/9.5/redhat/rhel-{{ el_version }}-x86_64/pgdg-sl95-9.5-2.noarch.rpm" }
   - { version: "9.4", repo: "http://yum.postgresql.org/9.4/redhat/rhel-{{ el_version }}-x86_64/pgdg-sl94-9.4-1.noarch.rpm" }
   - { version: "9.3", repo: "http://yum.postgresql.org/9.3/redhat/rhel-{{ el_version }}-x86_64/pgdg-sl93-9.3-1.noarch.rpm" }
   - { version: "9.2", repo: "http://yum.postgresql.org/9.2/redhat/rhel-{{ el_version }}-x86_64/pgdg-sl92-9.2-8.noarch.rpm" }
@@ -17,6 +19,7 @@ postgresql_repo_Scientific:
   - { version: "8.4", repo: "http://yum.postgresql.org/8.4/redhat/rhel-{{ el_version }}-x86_64/pgdg-sl84-8.4-4.noarch.rpm" }
 
 postgresql_repo_CentOS:
+  - { version: "9.5", repo: "http://yum.postgresql.org/9.5/redhat/rhel-{{ el_version }}-x86_64/pgdg-centos95-9.5-2.noarch.rpm" }
   - { version: "9.4", repo: "http://yum.postgresql.org/9.4/redhat/rhel-{{ el_version }}-x86_64/pgdg-centos94-9.4-1.noarch.rpm" }
   - { version: "9.3", repo: "http://yum.postgresql.org/9.3/redhat/rhel-{{ el_version }}-x86_64/pgdg-centos93-9.3-1.noarch.rpm" }
   - { version: "9.2", repo: "http://yum.postgresql.org/9.2/redhat/rhel-{{ el_version }}-x86_64/pgdg-centos92-9.2-6.noarch.rpm" }
