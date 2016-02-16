@@ -38,6 +38,8 @@
     owner: "{{ postgresql_admin_user }}"
     group: "{{ postgresql_admin_user }}"
     mode: 0640
+  notify:
+    - restart postgresql
 
 - name: "Stage 2: configure postgresql.conf"
   lineinfile:
