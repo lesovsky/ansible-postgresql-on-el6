@@ -7,8 +7,8 @@
   debug: msg="The following OS family {{ ansible_os_family }} {{ ansible_architecture }} is not supported" fail=yes
   when: not ansible_os_family == "RedHat" or not ansible_architecture == "x86_64"
 
-- name: Check packet manager support
-  debug: msg="The following packet manager {{ ansible_pkg_mgr }} is not supported" fail=yes
+- name: Check package manager support
+  debug: msg="The following package manager {{ ansible_pkg_mgr }} is not supported" fail=yes
   when: not ansible_pkg_mgr == "yum"
 
 - include: install.yml
