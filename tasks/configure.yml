@@ -47,7 +47,7 @@
     state: present
     regexp: "{{ item.regexp }}"
     line: "{{ item.guc }}"
-  with_items: postgresql_conf_default_guc
+  with_items: "{{ postgresql_conf_default_guc }}"
 
 - name: "Stage 2: create postgresql log directory"
   file:
