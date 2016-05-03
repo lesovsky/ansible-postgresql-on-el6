@@ -15,3 +15,4 @@
 - include: configure.yml
 - include: users.yml
 - include: databases.yml
+  when: postgresql_databases.0 is defined

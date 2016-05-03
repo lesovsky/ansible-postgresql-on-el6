@@ -1,14 +1,14 @@
 # file: roles/install-postgresql-on-el6/tasks/configure.yml -- postgresql pre-start configuration and startup
 
-- name: "Stage 2: stop old postgresql service"
+- name: "Stage 2 stop old postgresql service"
   service: name="postgresql-{{ postgresql_version }}" state=stopped
   when: postgresql_drop_old_cluster
 
-- name: "Stage 2: remove old postgresql cluster"
+- name: "Stage 2 remove old postgresql cluster"
   command: "rm -rf /var/lib/pgsql/{{ postgresql_version }}/data {{ postgresql_cluster_symlink_src }}"
   when: postgresql_drop_old_cluster
 
-- name: "Stage 2: cluster directory replacement with symlink, check destination directory"
+- name: "Stage 2 cluster directory replacement with symlink, check destination directory"
   file:
     path: "{{ postgresql_cluster_symlink_src }}"
     state: directory
@@ -17,7 +17,7 @@
     mode: 0700
   when: postgresql_cluster_symlink_src|length > 0
   
-- name: "Stage 2: cluster directory replacement with symlink, create symlink"
+- name: "Stage 2 cluster directory replacement with symlink, create symlink"
   file:
     src: "{{ postgresql_cluster_symlink_src }}"
     dest: "/var/lib/pgsql/{{ postgresql_version }}/data"
@@ -26,12 +26,12 @@
     group: "{{ postgresql_admin_user }}"
   when: postgresql_cluster_symlink_src|length > 0
 
-- name: "Stage 2: initialize new postgresql cluster"
+- name: "Stage 2 initialize new postgresql cluster"
   sudo: yes
   sudo_user: "{{ postgresql_admin_user }}"
   command: "/usr/pgsql-{{ postgresql_version }}/bin/initdb -D /var/lib/pgsql/{{ postgresql_version }}/data creates=/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf"
 
-- name: "Stage 2: configure pg_hba.conf"
+- name: "Stage 2 configure pg_hba.conf"
   template:
     src: pg_hba.conf.j2
     dest: "/var/lib/pgsql/{{ postgresql_version }}/data/pg_hba.conf"
@@ -41,7 +41,7 @@
   notify:
     - restart postgresql
 
-- name: "Stage 2: configure postgresql.conf"
+- name: "Stage 2 configure postgresql.conf"
   lineinfile:
     dest: "/var/lib/pgsql/{{ postgresql_version }}/data/postgresql.conf"
     state: present
@@ -49,7 +49,7 @@
     line: "{{ item.guc }}"
   with_items: "{{ postgresql_conf_default_guc }}"
 
-- name: "Stage 2: create postgresql log directory"
+- name: "Stage 2 create postgresql log directory"
   file:
     path: "{{ postgresql_log_directory }}"
     state: directory
@@ -58,5 +58,5 @@
     mode: 0755
   when: postgresql_log_directory is defined
 
-- name: "Stage 2: start postgresql service"
+- name: "Stage 2 start postgresql service"
   service: name="postgresql-{{ postgresql_version }}" state=started enabled=yes
