@@ -9,7 +9,7 @@
     lc_collate= "{{ item.collate }}"
     lc_ctype= "{{ item.ctype }}"
     owner= "{{ item.owner }}"
-  with_items: "{{ postgresql_databases }}”
+  with_items: "{{ postgresql_databases }}"
   when: postgresql_databases|length > 0
 
 - name: "Stage 4 add extensions"
