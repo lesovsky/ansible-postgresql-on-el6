@@ -2,13 +2,13 @@
 
 - name: "Stage 4 add databases"
   postgresql_db:
-    state= present
-    name= "{{ item.name }}"
-    template= "{{ item.template }}"
-    encoding= "{{ item.encoding }}"
-    lc_collate= "{{ item.collate }}"
-    lc_ctype= "{{ item.ctype }}"
-    owner= "{{ item.owner }}"
+    state: "present"
+    name: "{{ item.name }}"
+    template: "{{ item.template }}"
+    encoding: "{{ item.encoding }}"
+    lc_collate: "{{ item.collate }}"
+    lc_ctype: "{{ item.ctype }}"
+    owner: "{{ item.owner }}"
   with_items: "{{ postgresql_databases }}"
   when: postgresql_databases|length > 0
 

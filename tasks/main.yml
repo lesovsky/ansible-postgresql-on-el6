@@ -11,8 +11,8 @@
   debug: msg="The following packet manager {{ ansible_pkg_mgr }} is not supported" fail=yes
   when: not ansible_pkg_mgr == "yum"
 
-- include: install.yml
-- include: configure.yml
-- include: users.yml
-- include: databases.yml
+- import_tasks: install.yml
+- import_tasks: configure.yml
+- import_tasks: users.yml
+- import_tasks: databases.yml
   when: postgresql_databases.0 is defined
