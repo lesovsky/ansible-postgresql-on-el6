@@ -2,17 +2,17 @@
 
 - name: "Stage 1a: install repository package on CentOS"
   package: name="{{ item.repo }}" state=present
-  when: item.version == "{{ postgresql_version }}" and ansible_distribution == "CentOS"
+  when: item.version == postgresql_version and ansible_distribution == "CentOS"
   with_items: "{{ postgresql_repo_CentOS }}"
 
 - name: "Stage 1b: install repository package on RedHat"
   package: name="{{ item }}" state=present
-  when: item.version == "{{ postgresql_version }}" and ansible_distribution == "RedHat"
+  when: item.version == postgresql_version and ansible_distribution == "RedHat"
   with_items: "{{ postgresql_repo_RedHat }}"
 
 - name: "Stage 1c: install repository package on Scientific"
   package: name="{{ item }}" state=present
-  when: item.version == "{{ postgresql_version }}" and ansible_distribution == "Scientific"
+  when: item.version == postgresql_version and ansible_distribution == "Scientific"
   with_items: "{{ postgresql_repo_Scientific }}"
 
 - name: "Stage 1: install postgresql packages"
