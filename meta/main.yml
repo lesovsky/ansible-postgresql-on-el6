@@ -4,7 +4,7 @@ galaxy_info:
   author: "Alexey Lesovsky"
   description: A role to install PostgreSQL 8.4/9.x on RedHat/CentOS/Scientific/Oracle Enterprise Linux.
   license: as-is
-  min_ansible_version: 1.4
+  min_ansible_version: 2.0
   version: 1.0
   platforms:
     - name: EL
