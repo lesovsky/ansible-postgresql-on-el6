@@ -2,7 +2,7 @@
 # Install PostgreSQL on Enterprise Linux 6 (RHEL/CentOS/Scientific)
 - hosts: localhost
   sudo: yes
-  sudo_user: root
+  remote_user: root
   vars_files:
     - 'defaults/main.yml'
   tasks:
